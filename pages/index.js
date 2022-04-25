@@ -1,11 +1,12 @@
+import { Container } from "@chakra-ui/react";
 import CoinList from "../components/CoinList";
 
 
 export default function Home({coinsData}) {
   return (
-    <div>
+    <Container>
       <CoinList coinsData={coinsData}/>
-    </div>
+    </Container>
   )
 }
 
