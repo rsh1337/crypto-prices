@@ -18,6 +18,8 @@ const CoinList = ({ coinsData }) => {
           <Tr>
             <Th>Coin</Th>
             <Th isNumeric>Price</Th>
+            <Th isNumeric>Max Price(24H)</Th>
+            <Th isNumeric>Min Price(24H)</Th>
           </Tr>
         </Thead>
         {coinsData.map(
@@ -26,7 +28,8 @@ const CoinList = ({ coinsData }) => {
             current_price,
             image,
             id,
-            price_change_percentage_24h_in_currency,
+            high_24h,
+            low_24h,
           }) => (
             <Tbody key={id}>
               <Tr>
@@ -37,10 +40,16 @@ const CoinList = ({ coinsData }) => {
                     src={image}
                     alt={name}
                   />
-                  <Box>{name}</Box>
+                  <Box mt={2}>{name}</Box>
                 </Td>
                 <Td isNumeric>
                   <Box>${current_price}</Box>
+                </Td>
+                <Td isNumeric>
+                  <Box>${high_24h}</Box>
+                </Td>
+                <Td isNumeric>
+                  <Box>${low_24h}</Box>
                 </Td>
               </Tr>
             </Tbody>

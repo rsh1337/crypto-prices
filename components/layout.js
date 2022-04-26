@@ -66,7 +66,7 @@ function Header() {
 
   return (
     <Box>
-      <Container>
+      <Container maxW="container.md">
         <Stack as="nav" direction={["column", , "row"]} wrap="wrap" py="1rem">
           <Box display={["block", , "none"]} onClick={onToggle}>
             <Button variant="outline">

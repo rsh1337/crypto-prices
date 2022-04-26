@@ -5,7 +5,7 @@ import Layout from "../components/Layout";
 export default function Home({ coinsData }) {
   return (
     <Layout title="Crypto">
-      <Container>
+      <Container maxW="container.md">
         <CoinList coinsData={coinsData} />
       </Container>
     </Layout>
