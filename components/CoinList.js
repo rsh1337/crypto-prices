@@ -1,3 +1,4 @@
+import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import {
   Box,
   Image,
@@ -20,6 +21,7 @@ const CoinList = ({ coinsData }) => {
             <Th isNumeric>Price</Th>
             <Th isNumeric>Max Price(24H)</Th>
             <Th isNumeric>Min Price(24H)</Th>
+            <Th isNumeric>Change(24H)</Th>
           </Tr>
         </Thead>
         {coinsData.map(
@@ -30,6 +32,7 @@ const CoinList = ({ coinsData }) => {
             id,
             high_24h,
             low_24h,
+            price_change_percentage_24h_in_currency,
           }) => (
             <Tbody key={id}>
               <Tr>
@@ -50,6 +53,13 @@ const CoinList = ({ coinsData }) => {
                 </Td>
                 <Td isNumeric>
                   <Box>${low_24h}</Box>
+                </Td>
+                <Td isNumeric>
+                  {price_change_percentage_24h_in_currency < 0 ? (
+                    <Box color="red.500"><TriangleDownIcon /> {price_change_percentage_24h_in_currency.toFixed(2)}%</Box>
+                  ) : (
+                    <Box color="green.500"><TriangleUpIcon /> {price_change_percentage_24h_in_currency.toFixed(2)}%</Box>
+                  )}
                 </Td>
               </Tr>
             </Tbody>
