@@ -20,6 +20,28 @@ import { HamburgerIcon, SearchIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
+function SearchBar(){
+  return (
+    <InputGroup as="form">
+      <Input
+        variant="outline"
+        focusBorderColor="Lime"
+        placeholder="Search"
+        _placeholder={{ color: "inherit", opacity: 1 }}
+        w="20rem"
+        onChange={(event) => setText(event.target.value)}
+      />
+      <InputRightElement>
+        <IconButton
+          aria-label="Search for a movie"
+          icon={<SearchIcon />}
+          type="submit"
+        />
+      </InputRightElement>
+    </InputGroup>
+  );
+}
+
 const MenuItem = ({ href, children, ...props }) => (
   <Link href={href} passHref>
     <Button as="a" variant="link" {...props}>
@@ -58,9 +80,9 @@ function Header() {
             </MenuItem>
           </Box>
           <Spacer />
-          {/* <Box display={[isOpen ? "block" : "none", , "block"]}>
-            <SearchBar type='text' placeholder='Search' onChange={handleChange}/>
-          </Box> */}
+          <Box display={[isOpen ? "block" : "none", , "block"]}>
+            <SearchBar />
+          </Box>
         </Stack>
       </Container>
     </Box>
