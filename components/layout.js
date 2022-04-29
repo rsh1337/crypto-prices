@@ -49,7 +49,7 @@ function SearchBar(){
       />
       <InputRightElement>
         <IconButton
-          aria-label="Search for a movie"
+          aria-label="Search for a coin"
           icon={<SearchIcon />}
           type="submit"
         />

@@ -22,39 +22,34 @@ function SearchResults() {
     return <Progress size="xs" isIndeterminate />;
   }
 
+  if (!data.coins.length) {
+    return <Text>No results</Text>;
+  }
+
   return (
     <TableContainer>
     <Table size="sm">
       <Thead>
         <Tr>
           <Th>Coin</Th>
-          <Th isNumeric>Price</Th>
-          <Th isNumeric>Max Price(24H)</Th>
-          <Th isNumeric>Min Price(24H)</Th>
-          <Th isNumeric>Change(24H)</Th>
+          <Th>Symbol</Th>
         </Tr>
       </Thead>
-      {data.coins.map(({ name, current_price, image, id, high_24h, low_24h, price_change_percentage_24h_in_currency,}) => (
+      {data.coins.map(({ name, id, large, symbol}) => (
           <Tbody key={id}>
             <Tr>
               <Td>
                 <Image
                   borderRadius="full"
                   boxSize="50px"
-                  src={image}
+                  src={large}
                   alt={name}
                 />
                 <Box mt={2}>{name}</Box>
               </Td>
-              <Td isNumeric>
-                <Box>${current_price}</Box>
-              </Td>
-              <Td isNumeric>
-                <Box>${high_24h}</Box>
-              </Td>
-              <Td isNumeric>
-                <Box>${low_24h}</Box>
-              </Td>
+              <Td>
+                  <Box>{symbol}</Box>
+            </Td>
             </Tr>
           </Tbody>
         )
