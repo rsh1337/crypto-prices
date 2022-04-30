@@ -43,7 +43,6 @@ function SearchBar(){
         focusBorderColor="Lime"
         placeholder="Search"
         _placeholder={{ color: "inherit", opacity: 1 }}
-        w="20rem"
         value={text}
         onChange={(event) => setText(event.target.value)}
       />

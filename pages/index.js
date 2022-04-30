@@ -1,5 +1,5 @@
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
-import { Box, Center, CircularProgress, Container, Image, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import { Box, Center, CircularProgress, Container, Image, Link, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import { useState } from "react";
 import useSWR from "swr";
 import Layout from "../components/Layout";
@@ -20,10 +20,9 @@ function CoinList(){
   return (
     <TableContainer>
       <Table size="sm">
-        <Thead>
+      <Thead>
           <Tr>
             <Th>Coin</Th>
-            <Th>Rank</Th>
             <Th isNumeric>Price</Th>
             <Th isNumeric>Change(24H)</Th>
           </Tr>
@@ -37,9 +36,10 @@ function CoinList(){
             changePercent24Hr,
             rank
           }) => (
-            <Tbody key={id}>
+               <Tbody key={id}>
               <Tr>
                 <Td>
+                <Link href={`/coins/${id}`} passHref>
                   <Image
                     borderRadius="full"
                     boxSize="50px"
@@ -47,20 +47,23 @@ function CoinList(){
                     alt={name}
                   />
                   <Box mt={2}>{name}</Box>
-                </Td>
-                <Td>
-                  <Box>{rank}</Box>
+                  </Link>
                 </Td>
                 <Td isNumeric>
+                <Link href={`/coins/${id}`} passHref>
                   <Box>${priceUsd.slice(0, 7)}</Box>
+                  </Link>
                 </Td>
                 <Td isNumeric>
+                <Link href={`/coins/${id}`} passHref>
                   {changePercent24Hr < 0 ? (
                     <Box color="red.500"><TriangleDownIcon /> {changePercent24Hr.slice(0, 5)}%</Box>
                   ) : (
                     <Box color="green.500"><TriangleUpIcon /> {changePercent24Hr.slice(0, 5)}%</Box>
                   )}
+                  </Link>
                 </Td>
+                
               </Tr>
             </Tbody>
           )

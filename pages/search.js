@@ -3,6 +3,7 @@ import {
   Box,
   Container,
   Image,
+  Link,
   Progress,
   Table,
   TableContainer,
@@ -63,6 +64,7 @@ function SearchResults() {
             <Tbody key={id}>
               <Tr>
                 <Td>
+                <Link href={`/coins/${id}`} passHref>
                   <Image
                     borderRadius="full"
                     boxSize="50px"
@@ -70,12 +72,17 @@ function SearchResults() {
                     alt={name}
                   />
                   <Box mt={2}>{name}</Box>
+                  </Link>
                 </Td>
                 <Td>
+                <Link href={`/coins/${id}`} passHref>
                   <Box>{rank}</Box>
+                  </Link>
                 </Td>
                 <Td isNumeric>
+                  <Link href={`/coins/${id}`} passHref>
                   <Box>${priceUsd.slice(0, 7)}</Box>
+                  </Link>
                 </Td>
               </Tr>
             </Tbody>
