@@ -6,6 +6,7 @@ import Layout from "../components/Layout";
 import { fetcher } from '../utils/api';
 
 function CoinList(){
+  const IMAGES_API = "https://assets.coincap.io/assets/icons/";
   const { data, error } = useSWR('/api/coins', fetcher)
   if (error) return <div>Failed to load</div>
   if (!data) {
@@ -22,21 +23,19 @@ function CoinList(){
         <Thead>
           <Tr>
             <Th>Coin</Th>
+            <Th>Rank</Th>
             <Th isNumeric>Price</Th>
-            <Th isNumeric>Max Price(24H)</Th>
-            <Th isNumeric>Min Price(24H)</Th>
             <Th isNumeric>Change(24H)</Th>
           </Tr>
         </Thead>
-        {data.map(
+        {data.data.map(
           ({
-            name,
-            current_price,
-            image,
             id,
-            high_24h,
-            low_24h,
-            price_change_percentage_24h_in_currency,
+            symbol,
+            name,
+            priceUsd,
+            changePercent24Hr,
+            rank
           }) => (
             <Tbody key={id}>
               <Tr>
@@ -44,25 +43,22 @@ function CoinList(){
                   <Image
                     borderRadius="full"
                     boxSize="50px"
-                    src={image}
+                    src={IMAGES_API + `${symbol.toLowerCase()}@2x.png`}
                     alt={name}
                   />
                   <Box mt={2}>{name}</Box>
                 </Td>
-                <Td isNumeric>
-                  <Box>${current_price}</Box>
+                <Td>
+                  <Box>{rank}</Box>
                 </Td>
                 <Td isNumeric>
-                  <Box>${high_24h}</Box>
+                  <Box>${priceUsd.slice(0, 7)}</Box>
                 </Td>
                 <Td isNumeric>
-                  <Box>${low_24h}</Box>
-                </Td>
-                <Td isNumeric>
-                  {price_change_percentage_24h_in_currency < 0 ? (
-                    <Box color="red.500"><TriangleDownIcon /> {price_change_percentage_24h_in_currency.toFixed(2)}%</Box>
+                  {changePercent24Hr < 0 ? (
+                    <Box color="red.500"><TriangleDownIcon /> {changePercent24Hr.slice(0, 5)}%</Box>
                   ) : (
-                    <Box color="green.500"><TriangleUpIcon /> {price_change_percentage_24h_in_currency.toFixed(2)}%</Box>
+                    <Box color="green.500"><TriangleUpIcon /> {changePercent24Hr.slice(0, 5)}%</Box>
                   )}
                 </Td>
               </Tr>
