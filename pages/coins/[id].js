@@ -11,13 +11,45 @@ import {
 } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { Line } from "react-chartjs-2";
+import Chart from "chart.js/auto";
 import useSWR from "swr";
 import Layout from "../../components/Layout";
+
 
 const CoinContent = () => {
   const { id } = useRouter().query;
   const { data, error } = useSWR(id && `/api/coins/${id}`);
+  const { dataHistory } = useSWR(id && `/api/coins/${id}/history?interval=d1`);
   const IMAGES_API = "https://assets.coincap.io/assets/icons/";
+
+
+  const dataCoin = {
+    labels: ['24Hr', '20Hr', '15Hr', '10Hr', '5Hr', '1Hr', '30Min'],
+    datasets: [
+      {
+        label: 'Prices in last 24Hr',
+        fill: false,
+        lineTension: 0.1,
+        backgroundColor: 'rgba(75,192,192,0.4)',
+        borderColor: 'rgba(75,192,192,1)',
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: 'rgba(75,192,192,1)',
+        pointBackgroundColor: '#fff',
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+        pointHoverBorderColor: 'rgba(220,220,220,1)',
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        data: [1,2,3,4,2,3]
+      }
+    ]
+  };
 
   if (error) {
     return (
@@ -33,16 +65,18 @@ const CoinContent = () => {
       </Center>
     );
   }
+
   return (
     <Stack>
       <Head>
         <title>{data.data.name}</title>
       </Head>
-      <Box borderWidth="3px" borderRadius="lg" padding={4}>
+      <Box borderWidth="3px" borderRadius="lg" padding={4} mb={10}>
         <Stack spacing={10} direction="row">
           <Box>
             <HStack ml={10}>
               <Image
+                boxSize='60px'
                 alt={data.data.name}
                 src={IMAGES_API + `${data.data.symbol.toLowerCase()}@2x.png`}
               />
@@ -90,7 +124,7 @@ const CoinContent = () => {
               {data.data.marketCapUsd < 1000000000 ? (
                 <Box>
                   $
-                  {data.data.marketCapUsd
+                  {data.data.marketCapUsd.slice(0, 11)
                     .toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 </Box>
@@ -98,7 +132,7 @@ const CoinContent = () => {
                 <Box>
                   $
                   {data.data.marketCapUsd
-                    .slice(0, 12)
+                    .slice(0, 13)
                     .toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 </Box>
@@ -111,7 +145,7 @@ const CoinContent = () => {
               {data.data.volumeUsd24Hr < 1000000000 ? (
                 <Box>
                   $
-                  {data.data.volumeUsd24Hr
+                  {data.data.volumeUsd24Hr.slice(0, 11)
                     .toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 </Box>
@@ -128,12 +162,14 @@ const CoinContent = () => {
           </Box>
         </Stack>
       </Box>
-      
+      <Box borderWidth="3px" borderRadius="lg" padding={4}>
+          <Line data={dataCoin} width={400} height={200} />
+     </Box>
     </Stack>
   );
 };
 
-export default function Movie() {
+export default function Coin() {
   return (
     <Layout>
       <Container maxW="container.md">
