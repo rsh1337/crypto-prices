@@ -1,9 +1,10 @@
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
-import { Box, Center, CircularProgress, Container, Image, Link, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import { Box, Button, Center, CircularProgress, Container, Image, Link, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import { useState } from "react";
 import useSWR from "swr";
 import Layout from "../components/Layout";
 import { fetcher } from '../utils/api';
+import NextLink from 'next/link'
 
 function CoinList(){
   const IMAGES_API = "https://assets.coincap.io/assets/icons/";
@@ -39,7 +40,8 @@ function CoinList(){
                <Tbody key={id}>
               <Tr>
                 <Td>
-                <Link href={`/coins/${id}`} passHref>
+                <NextLink href={`/coins/${id}`}>
+                <Button href={`/coins/${id}`} variant='ghost' size='lg'>
                   <Image
                     borderRadius="full"
                     boxSize="50px"
@@ -47,21 +49,18 @@ function CoinList(){
                     alt={name}
                   />
                   <Box mt={2}>{name}</Box>
-                  </Link>
+                  </Button>
+                  </NextLink>
                 </Td>
                 <Td isNumeric>
-                <Link href={`/coins/${id}`} passHref>
                   <Box>${priceUsd.slice(0, 7)}</Box>
-                  </Link>
                 </Td>
                 <Td isNumeric>
-                <Link href={`/coins/${id}`} passHref>
                   {changePercent24Hr < 0 ? (
                     <Box color="red.500"><TriangleDownIcon /> {changePercent24Hr.slice(0, 5)}%</Box>
                   ) : (
                     <Box color="green.500"><TriangleUpIcon /> {changePercent24Hr.slice(0, 5)}%</Box>
                   )}
-                  </Link>
                 </Td>
                 
               </Tr>
