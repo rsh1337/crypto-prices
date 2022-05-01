@@ -51,7 +51,7 @@ const CoinChart = () => {
     labels: timestamps,
     datasets: [
       {
-        label: "Prices in last year",
+        label: "Prices in last 24Hr",
         fill: false,
         lineTension: 0.1,
         backgroundColor: "rgba(75,192,192,0.4)",
