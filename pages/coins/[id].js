@@ -16,40 +16,73 @@ import Chart from "chart.js/auto";
 import useSWR from "swr";
 import Layout from "../../components/Layout";
 
+const CoinChart = () => {
+  const { id } = useRouter().query;
+  const { data, error } = useSWR(id && `/api/history/${id}`);
+  if (error) {
+    return (
+      <Text color="red">
+        Error fetching coin with ID {id}: {JSON.stringify(error)}
+      </Text>
+    );
+  }
+  if (!data) {
+    return (
+      <Center h="full">
+        <CircularProgress isIndeterminate />
+      </Center>
+    );
+  }
+
+  var coinsLable = [],
+    coinsPrice = [];
+
+  const price = data.data.map((x) => x.priceUsd);
+  const date = data.data.map((x) => x.time);
+  coinsLable = date;
+  coinsPrice = price;
+  console.log(date)
+
+  var timestamps = coinsLable.map(function(d) { return new Date(d) } );
+
+  console.log(timestamps)
+
+  const dataCoin = {
+    labels: timestamps,
+    datasets: [
+      {
+        label: "Prices in last year",
+        fill: false,
+        lineTension: 0.1,
+        backgroundColor: "rgba(75,192,192,0.4)",
+        borderColor: "rgba(75,192,192,1)",
+        borderCapStyle: "butt",
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: "miter",
+        pointBorderColor: "rgba(75,192,192,1)",
+        pointBackgroundColor: "#fff",
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+        pointHoverBorderColor: "rgba(220,220,220,1)",
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        data: coinsPrice,
+      },
+    ],
+  };
+  const options = { scales: { x: { display: false } } }
+  return(
+    <Line options={options} data={dataCoin}/>
+  )
+};
 
 const CoinContent = () => {
   const { id } = useRouter().query;
   const { data, error } = useSWR(id && `/api/coins/${id}`);
-  const { dataHistory } = useSWR(id && `/api/coins/${id}/history?interval=d1`);
   const IMAGES_API = "https://assets.coincap.io/assets/icons/";
-
-
-  const dataCoin = {
-    labels: ['24Hr', '20Hr', '15Hr', '10Hr', '5Hr', '1Hr', '30Min'],
-    datasets: [
-      {
-        label: 'Prices in last 24Hr',
-        fill: false,
-        lineTension: 0.1,
-        backgroundColor: 'rgba(75,192,192,0.4)',
-        borderColor: 'rgba(75,192,192,1)',
-        borderCapStyle: 'butt',
-        borderDash: [],
-        borderDashOffset: 0.0,
-        borderJoinStyle: 'miter',
-        pointBorderColor: 'rgba(75,192,192,1)',
-        pointBackgroundColor: '#fff',
-        pointBorderWidth: 1,
-        pointHoverRadius: 5,
-        pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-        pointHoverBorderColor: 'rgba(220,220,220,1)',
-        pointHoverBorderWidth: 2,
-        pointRadius: 1,
-        pointHitRadius: 10,
-        data: [1,2,3,4,2,3]
-      }
-    ]
-  };
 
   if (error) {
     return (
@@ -76,7 +109,7 @@ const CoinContent = () => {
           <Box>
             <HStack ml={10}>
               <Image
-                boxSize='60px'
+                boxSize="60px"
                 alt={data.data.name}
                 src={IMAGES_API + `${data.data.symbol.toLowerCase()}@2x.png`}
               />
@@ -124,7 +157,8 @@ const CoinContent = () => {
               {data.data.marketCapUsd < 1000000000 ? (
                 <Box>
                   $
-                  {data.data.marketCapUsd.slice(0, 11)
+                  {data.data.marketCapUsd
+                    .slice(0, 11)
                     .toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 </Box>
@@ -145,7 +179,8 @@ const CoinContent = () => {
               {data.data.volumeUsd24Hr < 1000000000 ? (
                 <Box>
                   $
-                  {data.data.volumeUsd24Hr.slice(0, 11)
+                  {data.data.volumeUsd24Hr
+                    .slice(0, 11)
                     .toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 </Box>
@@ -162,9 +197,6 @@ const CoinContent = () => {
           </Box>
         </Stack>
       </Box>
-      <Box borderWidth="3px" borderRadius="lg" padding={4}>
-          <Line data={dataCoin} width={400} height={200} />
-     </Box>
     </Stack>
   );
 };
@@ -174,6 +206,9 @@ export default function Coin() {
     <Layout>
       <Container maxW="container.md">
         <CoinContent />
+        <Box borderWidth="3px" borderRadius="lg" padding={4}>
+        <CoinChart />
+        </Box>
       </Container>
     </Layout>
   );
