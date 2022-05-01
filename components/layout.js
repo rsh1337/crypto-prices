@@ -34,6 +34,7 @@ import { HamburgerIcon, SearchIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
+
 function LoginModal() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [input, setInput] = useState("");
