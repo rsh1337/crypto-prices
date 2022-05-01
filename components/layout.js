@@ -15,18 +15,118 @@ import {
   Input,
   InputRightElement,
   IconButton,
+  Image,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  FormErrorMessage,
+  Checkbox,
+  useToast,
 } from "@chakra-ui/react";
 import { HamburgerIcon, SearchIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-function SearchBar(){
+function RegisterModal() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [input, setInput] = useState("");
+  const handleInputChange = (e) => setInput(e.target.value);
+  const isError = input === "";
+  const [show, setShow] = React.useState(false);
+  const handleClick = () => setShow(!show);
+  const toast = useToast()
+
+  return (
+    <>
+      <Button onClick={onOpen} variant='ghost'>Register</Button>
+
+      <Modal
+        motionPreset="slideInBottom"
+        closeOnOverlayClick={false}
+        blockScrollOnMount={true}
+        isOpen={isOpen}
+        onClose={onClose}
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Create Account</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <FormControl isRequired>
+              <FormLabel htmlFor="email">Email</FormLabel>
+              <Input
+                id="email"
+                type="email"
+                value={input}
+                onChange={handleInputChange}
+                placeholder="example@rares-andrei.me"
+              />
+              {!isError ? (
+                <FormHelperText>We'll never share your email.</FormHelperText>
+              ) : (
+                <FormErrorMessage>Email is required.</FormErrorMessage>
+              )}
+            </FormControl>
+            <FormControl mt={4} isRequired>
+              <FormLabel htmlFor="username">Username</FormLabel>
+              <Input id="username" placeholder="Username" />
+            </FormControl>
+            <FormControl mt={4} mb={4} isRequired>
+              <FormLabel htmlFor="password">Password</FormLabel>
+              <InputGroup size="md">
+                <Input
+                  id="password"
+                  pr="4.5rem"
+                  type={show ? "text" : "password"}
+                  placeholder="Enter password"
+                />
+                <InputRightElement width="4.5rem">
+                  <Button h="1.75rem" size="sm" onClick={handleClick}>
+                    {show ? "Hide" : "Show"}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
+            </FormControl>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button 
+            colorScheme="green"
+            type='submit'
+            onClick={() =>
+              toast({
+                title: 'Account created.',
+                description: "We've created your account for you.",
+                status: 'success',
+                duration: 9000,
+                isClosable: true,
+              })
+            }>Register</Button>
+            <Button ml={3} onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}
+
+function SearchBar() {
   const router = useRouter();
   const { terms } = router.query;
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
 
   useEffect(() => {
-    setText(terms || '');
+    setText(terms || "");
   }, [terms]);
 
   const handleSearch = (event) => {
@@ -66,33 +166,36 @@ const MenuItem = ({ href, children, ...props }) => (
 );
 
 function Header() {
-
   const { isOpen, onToggle } = useDisclosure();
 
   return (
     <Box>
       <Container maxW="container.md">
         <Stack as="nav" direction={["column", , "row"]} wrap="wrap" py="1rem">
-          <Box display={["block", , "none"]} onClick={onToggle}>
-            <Button variant="outline">
-              <HamburgerIcon />
-            </Button>
-          </Box>
+          <HStack justify="space-between">
+            <MenuItem href="/" mr={8}>
+              <Heading size="lg">Crypto</Heading>
+            </MenuItem>
+
+            <Box display={["block", , "none"]} onClick={onToggle}>
+              <Button variant="outline">
+                <HamburgerIcon />
+              </Button>
+            </Box>
+          </HStack>
 
           <Box display={[isOpen ? "block" : "none", , "block"]}>
-            <MenuItem href="/" mt={4}>
-              <Box size="sm" mr={3}>
-                Login
+            <HStack>
+              <Box>
+                <RegisterModal />
               </Box>
-            </MenuItem>
-            <MenuItem href="/">
-              <Box size="sm" mr={3}>
-                Register
+              <Box>
+                <RegisterModal />
               </Box>
-            </MenuItem>
-            <MenuItem href="/">
-              <Box size="sm">Favorite</Box>
-            </MenuItem>
+              <Box>
+                <RegisterModal />
+              </Box>
+            </HStack>
           </Box>
           <Spacer />
           <Box display={[isOpen ? "block" : "none", , "block"]}>
@@ -109,7 +212,7 @@ export default function Layout({ title, children }) {
     <>
       <Head>
         <title>{title}</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
       <Grid minH="100vh">
         <VStack align="stretch" w="full" spacing={8}>
