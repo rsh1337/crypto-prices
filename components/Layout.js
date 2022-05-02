@@ -11,14 +11,9 @@ import {
   Spacer,
   VStack,
   Grid,
-  InputGroup,
-  Input,
-  InputRightElement,
-  IconButton,
 } from "@chakra-ui/react";
-import { HamburgerIcon, SearchIcon } from "@chakra-ui/icons";
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import { HamburgerIcon } from "@chakra-ui/icons";
+import React from "react";
 import LoginModal from "./LoginModal"
 import RegisterModal from "./RegisterModal";
 import SearchBar from "./SearchBar";
