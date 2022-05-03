@@ -17,6 +17,7 @@ import React from "react";
 import LoginModal from "./LoginModal"
 import RegisterModal from "./RegisterModal";
 import SearchBar from "./SearchBar";
+import { useSession } from "next-auth/react"
 
 const MenuItem = ({ href, children, ...props }) => (
   <Link href={href} passHref>
@@ -26,8 +27,26 @@ const MenuItem = ({ href, children, ...props }) => (
   </Link>
 );
 
+function Login() {
+  const { data: session, status } = useSession()
+
+  if (status === "unauthenticated") {
+    return(
+      <MenuItem href="/api/auth/signin">
+      <Box size="sm" ml={2}>Login</Box>
+    </MenuItem>
+    )
+  }
+  return(
+    <MenuItem href="/api/auth/signout">
+    <Box size="sm" ml={2}>Signout</Box>
+  </MenuItem>
+  )
+}
+
 function Header() {
   const { isOpen, onToggle } = useDisclosure();
+  const { data: session, status } = useSession()
 
   return (
     <Box>
@@ -48,11 +67,14 @@ function Header() {
           <Box display={[isOpen ? "block" : "none", , "block"]}>
             <HStack>
               <Box>
+                <Login />
+              </Box>
+              {/* <Box>
                 <LoginModal />
-              </Box>
-              <Box>
+              </Box> */}
+              {/* <Box>
                 <RegisterModal />
-              </Box>
+              </Box> */}
             <MenuItem href="/">
                <Box size="sm" ml={2}>Favorite</Box>
              </MenuItem>

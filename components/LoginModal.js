@@ -9,7 +9,6 @@ function LoginModal() {
     const [show, setShow] = React.useState(false);
     const handleClick = () => setShow(!show);
     const toast = useToast()
-  
     return (
       <>
         <Button onClick={onOpen} variant='ghost'>Login</Button>
