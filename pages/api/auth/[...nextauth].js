@@ -7,7 +7,7 @@ const prisma = new PrismaClient()
 export default NextAuth({
   session: {
     jwt: true,
-},
+  },
   adapter: PrismaAdapter(prisma),
   providers: [
     GithubProvider({
