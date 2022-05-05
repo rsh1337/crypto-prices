@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { PrismaClient } from "@prisma/client"
-
+const prisma = new PrismaClient()
 
 export default NextAuth({
   session: {
@@ -14,22 +14,5 @@ export default NextAuth({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
     }),
-    CredentialsProvider({
-      name: "Credentials",
-      credentials: {
-      email: { label: "Username", type: "email", placeholder: "jsmith" },
-      password: { label: "Password", type: "password" }
-      },
-      
-      async authorize(credentials, req) {
-      const email = credentials.email;
-      const password = credentials.password;
-      const user = await Users.findOne({ email })
-      if (!user) {
-      throw new Error("You haven't registered yet")
-      }
-      if (user) return signinUser({ password, user })
-      }
-      }),
   ],
 });
