@@ -28,8 +28,6 @@ function SearchBar() {
           _placeholder={{ color: "inherit", opacity: 1 }}
           value={text}
           onChange={(event) => setText(event.target.value)}
-          htmlSize={30}
-          width='auto'
         />
         <InputRightElement>
           <IconButton

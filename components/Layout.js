@@ -11,27 +11,19 @@ import {
   Spacer,
   VStack,
   Grid,
+  Menu,
+  MenuButton,
+  Image,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
-import { HamburgerIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, HamburgerIcon } from "@chakra-ui/icons";
 import React from "react";
 import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";
 import SearchBar from "./SearchBar";
 import { signOut, useSession } from "next-auth/react";
-import NextLink from 'next/link'
-
-function Login() {
-  const { data: session, status } = useSession();
-
-  if (status === "unauthenticated") {
-    return <LoginModal />;
-  }
-  return (
-    <Button onClick={() => signOut()} variant="ghost">
-      Sign out
-    </Button>
-  );
-}
+import NextLink from "next/link";
 
 function Header() {
   const { isOpen, onToggle } = useDisclosure();
@@ -43,11 +35,11 @@ function Header() {
         <Container maxW="container.md">
           <Stack as="nav" direction={["column", , "row"]} wrap="wrap" py="1rem">
             <HStack justify="space-between">
-            <NextLink href={`/`}>
-              <Button variant="ghost">
-                <Heading size="lg">Crypto</Heading>
-              </Button>
-            </NextLink>
+              <NextLink href={`/`}>
+                <Button variant="ghost">
+                  <Heading size="lg">Crypto</Heading>
+                </Button>
+              </NextLink>
 
               <Box display={["block", , "none"]} onClick={onToggle}>
                 <Button variant="outline">
@@ -63,7 +55,7 @@ function Header() {
             <Box display={[isOpen ? "block" : "none", , "block"]}>
               <HStack>
                 <Box>
-                  <Login />
+                  <LoginModal />
                 </Box>
               </HStack>
             </Box>
@@ -72,46 +64,74 @@ function Header() {
       </Box>
     );
   }
-  return (
-    <Box>
-      <Container maxW="container.md">
-        <Stack as="nav" direction={["column", , "row"]} wrap="wrap" py="1rem">
-          <HStack justify="space-between">
-          <NextLink href={`/`}>
-              <Button variant="ghost">
-                <Heading size="lg">Crypto</Heading>
-              </Button>
-            </NextLink>
+  if (status === "authenticated") {
+    return (
+      <Box>
+        <Container maxW="container.md">
+          <Stack as="nav" direction={["column", , "row"]} wrap="wrap" py="1rem">
+            <HStack justify="space-between">
+              <NextLink href={`/`}>
+                <Button variant="ghost">
+                  <Heading size="lg">Crypto</Heading>
+                </Button>
+              </NextLink>
 
-            <Box display={["block", , "none"]} onClick={onToggle}>
-              <Button variant="outline">
-                <HamburgerIcon />
-              </Button>
+              <Box display={["block", , "none"]} onClick={onToggle}>
+                <Button variant="outline">
+                  <HamburgerIcon />
+                </Button>
+              </Box>
+            </HStack>
+
+            <Box display={[isOpen ? "block" : "none", , "block"]}>
+              <SearchBar />
             </Box>
-          </HStack>
-
-          <Box display={[isOpen ? "block" : "none", , "block"]}>
-            <SearchBar />
-          </Box>
-          <Spacer />
-          <Box display={[isOpen ? "block" : "none", , "block"]}>
-            <HStack>
+            <Spacer />
+            <Box display={[isOpen ? "block" : "none", , "block"]}>
+              {/* <HStack>
               <Box>
-                <Login />
+                <Button onClick={() => signOut()} variant="ghost">
+                  Sign out
+                </Button>
               </Box>
               <NextLink href={`/favorite`}>
                 <Button variant="ghost">
-                <Box size="sm" ml={2}>
+                  <Box size="sm" ml={2}>
                     Favorite
                   </Box>
                 </Button>
               </NextLink>
-            </HStack>
-          </Box>
-        </Stack>
-      </Container>
-    </Box>
-  );
+            </HStack> */}
+              <Menu>
+                <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                  <HStack>
+                    <Image
+                      boxSize="2rem"
+                      borderRadius="full"
+                      src={session.user.image}
+                      alt={session.user.name}
+                      mr="5px"
+                    />
+                    <Box>{session.user.name}</Box>
+                  </HStack>
+                </MenuButton>
+                <MenuList>
+                  <NextLink href={`/favorite`}>
+                    <MenuItem>
+                      <Box>Favorite</Box>
+                    </MenuItem>
+                  </NextLink>
+                  <MenuItem onClick={() => signOut()}>
+                    <Box>Sign out</Box>
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            </Box>
+          </Stack>
+        </Container>
+      </Box>
+    );
+  }
 }
 
 export default function Layout({ title, children }) {
