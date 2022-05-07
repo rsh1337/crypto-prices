@@ -1,32 +1,55 @@
-import { Button, Checkbox, FormControl, FormLabel, HStack, Input, InputGroup, InputRightElement, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControl,
+  FormLabel,
+  HStack,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+  useToast,
+  VStack,
+} from "@chakra-ui/react";
 import React, { useState } from "react";
+import { signIn } from "next-auth/react";
 
 function LoginModal() {
-    const { isOpen, onOpen, onClose } = useDisclosure();
-    const [input, setInput] = useState("");
-    const handleInputChange = (e) => setInput(e.target.value);
-    const isError = input === "";
-    const [show, setShow] = React.useState(false);
-    const handleClick = () => setShow(!show);
-    const toast = useToast()
-    return (
-      <>
-        <Button onClick={onOpen} variant='ghost'>Login</Button>
-  
-        <Modal
-          motionPreset="slideInBottom"
-          closeOnOverlayClick={false}
-          blockScrollOnMount={true}
-          isOpen={isOpen}
-          onClose={onClose}
-          isCentered
-        >
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Log in</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <FormControl isRequired>
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [input, setInput] = useState("");
+  const handleInputChange = (e) => setInput(e.target.value);
+  const isError = input === "";
+  const [show, setShow] = React.useState(false);
+  const handleClick = () => setShow(!show);
+  const toast = useToast();
+  return (
+    <>
+      <Button onClick={onOpen} variant="ghost">
+        Login
+      </Button>
+
+      <Modal
+        motionPreset="slideInBottom"
+        closeOnOverlayClick={false}
+        blockScrollOnMount={true}
+        isOpen={isOpen}
+        onClose={onClose}
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Log in</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {/* <FormControl isRequired>
                 <FormLabel htmlFor="username">Username</FormLabel>
                 <Input id="username" placeholder="Username" />
               </FormControl>
@@ -51,30 +74,40 @@ function LoginModal() {
                   <Checkbox id="rememberMe"></Checkbox>
                   <FormLabel htmlFor="rememberMe">Remember Me</FormLabel>
                 </HStack>
+              </FormControl> */}
+              <FormControl>
+                <VStack>
+                  <Button onClick={() => signIn('google')}>Sign in with google</Button>
+                  <Button onClick={() => signIn('github')}>Sign in with github</Button>
+                </VStack>
               </FormControl>
-            </ModalBody>
-  
-            <ModalFooter>
-              <Button 
+          </ModalBody>
+
+          <ModalFooter>
+            {/* <Button
               colorScheme="green"
-              type='submit'
+              type="submit"
               onClick={() =>
                 toast({
-                  title: 'Logged In.',
+                  title: "Logged In.",
                   description: "You have successfully logged in.",
-                  status: 'success',
+                  status: "success",
                   duration: 9000,
                   isClosable: true,
                 })
-              }>Login</Button>
-              <Button ml={3} onClick={onClose}>
-                Close
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      </>
-    );
-  }
+              }
+            >
+              Login
+            </Button> */}
+            <Button ml={3} onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}
+
 
 export default LoginModal;

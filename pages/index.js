@@ -41,7 +41,7 @@ function CoinList(){
               <Tr>
                 <Td>
                 <NextLink href={`/coins/${id}`}>
-                <Button href={`/coins/${id}`} variant='ghost' size='lg'>
+                <Button variant='ghost' size='lg'>
                   <Image
                     borderRadius="full"
                     boxSize="50px"

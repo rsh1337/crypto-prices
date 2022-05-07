@@ -14,48 +14,74 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import React from "react";
-import LoginModal from "./LoginModal"
+import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";
 import SearchBar from "./SearchBar";
-import { useSession } from "next-auth/react"
-
-const MenuItem = ({ href, children, ...props }) => (
-  <Link href={href} passHref>
-    <Button as="a" variant="link" {...props}>
-      {children}
-    </Button>
-  </Link>
-);
+import { signOut, useSession } from "next-auth/react";
+import NextLink from 'next/link'
 
 function Login() {
-  const { data: session, status } = useSession()
+  const { data: session, status } = useSession();
 
   if (status === "unauthenticated") {
-    return(
-      <MenuItem href="/api/auth/signin">
-      <Box size="sm" ml={2}>Login</Box>
-    </MenuItem>
-    )
+    return <LoginModal />;
   }
-  return(
-    <MenuItem href="/api/auth/signout">
-    <Box size="sm" ml={2}>Signout</Box>
-  </MenuItem>
-  )
+  return (
+    <Button onClick={() => signOut()} variant="ghost">
+      Sign out
+    </Button>
+  );
 }
 
 function Header() {
   const { isOpen, onToggle } = useDisclosure();
-  const { data: session, status } = useSession()
+  const { data: session, status } = useSession();
 
+  if (status === "unauthenticated") {
+    return (
+      <Box>
+        <Container maxW="container.md">
+          <Stack as="nav" direction={["column", , "row"]} wrap="wrap" py="1rem">
+            <HStack justify="space-between">
+            <NextLink href={`/`}>
+              <Button variant="ghost">
+                <Heading size="lg">Crypto</Heading>
+              </Button>
+            </NextLink>
+
+              <Box display={["block", , "none"]} onClick={onToggle}>
+                <Button variant="outline">
+                  <HamburgerIcon />
+                </Button>
+              </Box>
+            </HStack>
+
+            <Box display={[isOpen ? "block" : "none", , "block"]}>
+              <SearchBar />
+            </Box>
+            <Spacer />
+            <Box display={[isOpen ? "block" : "none", , "block"]}>
+              <HStack>
+                <Box>
+                  <Login />
+                </Box>
+              </HStack>
+            </Box>
+          </Stack>
+        </Container>
+      </Box>
+    );
+  }
   return (
     <Box>
       <Container maxW="container.md">
         <Stack as="nav" direction={["column", , "row"]} wrap="wrap" py="1rem">
           <HStack justify="space-between">
-            <MenuItem href="/" mr={8}>
-              <Heading size="lg">Crypto</Heading>
-            </MenuItem>
+          <NextLink href={`/`}>
+              <Button variant="ghost">
+                <Heading size="lg">Crypto</Heading>
+              </Button>
+            </NextLink>
 
             <Box display={["block", , "none"]} onClick={onToggle}>
               <Button variant="outline">
@@ -65,24 +91,22 @@ function Header() {
           </HStack>
 
           <Box display={[isOpen ? "block" : "none", , "block"]}>
+            <SearchBar />
+          </Box>
+          <Spacer />
+          <Box display={[isOpen ? "block" : "none", , "block"]}>
             <HStack>
               <Box>
                 <Login />
               </Box>
-              {/* <Box>
-                <LoginModal />
-              </Box> */}
-              {/* <Box>
-                <RegisterModal />
-              </Box> */}
-            <MenuItem href="/">
-               <Box size="sm" ml={2}>Favorite</Box>
-             </MenuItem>
+              <NextLink href={`/favorite`}>
+                <Button variant="ghost">
+                <Box size="sm" ml={2}>
+                    Favorite
+                  </Box>
+                </Button>
+              </NextLink>
             </HStack>
-          </Box>
-          <Spacer />
-          <Box display={[isOpen ? "block" : "none", , "block"]}>
-            <SearchBar />
           </Box>
         </Stack>
       </Container>
