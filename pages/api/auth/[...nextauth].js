@@ -7,7 +7,7 @@ const prisma = new PrismaClient()
 
 export default NextAuth({
   session: {
-    jwt: true,
+    strategy: "jwt",
   },
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -22,5 +22,5 @@ export default NextAuth({
   ],
   pages:{
     error: '/auth/error',
-  }
+  },
 });

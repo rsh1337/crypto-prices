@@ -16,8 +16,6 @@
     "@next-auth/mongodb-adapter": "^1.0.3",
     "@next-auth/prisma-adapter": "^1.0.3",
     "@prisma/client": "^3.13.0",
-    "bcrypt": "^5.0.1",
-    "bcryptjs": "^2.4.3",
     "chart.js": "^3.7.1",
     "env": "^0.0.2",
     "framer-motion": "^6.3.1",

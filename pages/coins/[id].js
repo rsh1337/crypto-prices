@@ -41,11 +41,8 @@ const CoinChart = () => {
   const date = data.data.map((x) => x.time);
   coinsLable = date;
   coinsPrice = price;
-  console.log(date)
 
   var timestamps = coinsLable.map(function(d) { return new Date(d) } );
-
-  console.log(timestamps)
 
   const dataCoin = {
     labels: timestamps,

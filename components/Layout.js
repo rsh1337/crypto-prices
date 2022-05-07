@@ -88,20 +88,6 @@ function Header() {
             </Box>
             <Spacer />
             <Box display={[isOpen ? "block" : "none", , "block"]}>
-              {/* <HStack>
-              <Box>
-                <Button onClick={() => signOut()} variant="ghost">
-                  Sign out
-                </Button>
-              </Box>
-              <NextLink href={`/favorite`}>
-                <Button variant="ghost">
-                  <Box size="sm" ml={2}>
-                    Favorite
-                  </Box>
-                </Button>
-              </NextLink>
-            </HStack> */}
               <Menu>
                 <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
                   <HStack>
@@ -116,9 +102,9 @@ function Header() {
                   </HStack>
                 </MenuButton>
                 <MenuList>
-                  <NextLink href={`/favorite`}>
+                  <NextLink href={`/favorite/${session.user.userId}`}>
                     <MenuItem>
-                      <Box>Favorite</Box>
+                      <Box>{session.user.name}</Box>
                     </MenuItem>
                   </NextLink>
                   <MenuItem onClick={() => signOut()}>
