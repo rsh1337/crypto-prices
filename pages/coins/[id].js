@@ -29,7 +29,7 @@ const CoinChart = () => {
   if (!data) {
     return (
       <Center h="full">
-        <CircularProgress isIndeterminate />
+        <CircularProgress isIndeterminate thickness='4px' />
       </Center>
     );
   }
@@ -91,7 +91,7 @@ const CoinContent = () => {
   if (!data) {
     return (
       <Center h="full">
-        <CircularProgress isIndeterminate />
+        <CircularProgress isIndeterminate thickness='4px' />
       </Center>
     );
   }

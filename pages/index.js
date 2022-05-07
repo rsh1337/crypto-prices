@@ -1,5 +1,5 @@
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
-import { Box, Button, Center, CircularProgress, Container, Image, Link, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import { Box, Button, Center, CircularProgress, Container, Image, Link, Progress, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import { useState } from "react";
 import useSWR from "swr";
 import Layout from "../components/Layout";
@@ -13,7 +13,7 @@ function CoinList(){
   if (!data) {
     return (
       <Center h="full">
-        <CircularProgress isIndeterminate />
+        <CircularProgress isIndeterminate thickness='4px' />
       </Center>
     );
   }
