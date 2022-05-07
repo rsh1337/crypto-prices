@@ -4,11 +4,13 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { PrismaClient } from "@prisma/client"
 import GoogleProvider from "next-auth/providers/google";
 const prisma = new PrismaClient()
+import { getToken } from "next-auth/jwt"
 
 export default NextAuth({
   session: {
     strategy: "jwt",
   },
+  secret: "VM4P3DQY99l7p1oTRrc1m6kjZTyTw5eVozKprCfBuHY=",
   adapter: PrismaAdapter(prisma),
   providers: [
     GithubProvider({
@@ -22,5 +24,11 @@ export default NextAuth({
   ],
   pages:{
     error: '/auth/error',
+  },
+  callbacks: {
+    async session({ session, token }) {
+      session.userId = token.sub;
+      return Promise.resolve(session);
+    },
   },
 });

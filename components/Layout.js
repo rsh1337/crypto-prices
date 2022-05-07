@@ -102,9 +102,9 @@ function Header() {
                   </HStack>
                 </MenuButton>
                 <MenuList>
-                  <NextLink href={`/favorite/${session.user.userId}`}>
+                  <NextLink href={`/favorite/${session.userId}`}>
                     <MenuItem>
-                      <Box>{session.user.name}</Box>
+                      <Box>Favorite</Box>
                     </MenuItem>
                   </NextLink>
                   <MenuItem onClick={() => signOut()}>
