@@ -1,6 +1,7 @@
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import {
   Box,
+  Button,
   Container,
   Image,
   Link,
@@ -18,6 +19,7 @@ import {
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import Layout from "../components/Layout";
+import NextLink from 'next/link'
 
 function SearchResults() {
   const { terms } = useRouter().query;
@@ -64,7 +66,8 @@ function SearchResults() {
             <Tbody key={id}>
               <Tr>
                 <Td>
-                <Link href={`/coins/${id}`} passHref>
+                <NextLink href={`/coins/${id}`}>
+                  <Button variant='ghost' size='lg'>
                   <Image
                     borderRadius="full"
                     boxSize="50px"
@@ -72,17 +75,14 @@ function SearchResults() {
                     alt={name}
                   />
                   <Box mt={2}>{name}</Box>
-                  </Link>
+                  </Button>
+                  </NextLink>
                 </Td>
                 <Td>
-                <Link href={`/coins/${id}`} passHref>
                   <Box>{rank}</Box>
-                  </Link>
                 </Td>
                 <Td isNumeric>
-                  <Link href={`/coins/${id}`} passHref>
                   <Box>${priceUsd.slice(0, 7)}</Box>
-                  </Link>
                 </Td>
               </Tr>
             </Tbody>
