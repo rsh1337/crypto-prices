@@ -5,6 +5,7 @@ import useSWR from "swr";
 import Layout from "../components/Layout";
 import { fetcher } from '../utils/api';
 import NextLink from 'next/link'
+import { Motion } from "framer-motion";
 
 function CoinList(){
   const IMAGES_API = "https://assets.coincap.io/assets/icons/";
