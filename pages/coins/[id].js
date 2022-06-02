@@ -1,4 +1,4 @@
-import { StarIcon, TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
+import { CalendarIcon, StarIcon, TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import {
   Badge,
   Box,
@@ -6,15 +6,19 @@ import {
   CircularProgress,
   Container,
   HStack,
+  IconButton,
   Image,
   Stack,
+  Tooltip,
 } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import Layout from "../../components/Layout";
+import { prisma } from "@prisma/client";
+import FavoriteButton from "../../components/FavoriteButton";
 
 const CoinChart = () => {
   const { id } = useRouter().query;
@@ -193,6 +197,7 @@ const CoinContent = () => {
             </Box>
           </Box>
         </Stack>
+        <FavoriteButton />
       </Box>
     </Stack>
   );
