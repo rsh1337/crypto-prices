@@ -16,6 +16,8 @@ import {
   Image,
   MenuList,
   MenuItem,
+  Tag,
+  useToast,
 } from "@chakra-ui/react";
 import { ChevronDownIcon, HamburgerIcon } from "@chakra-ui/icons";
 import React from "react";
@@ -28,6 +30,7 @@ import NextLink from "next/link";
 function Header() {
   const { isOpen, onToggle } = useDisclosure();
   const { data: session, status } = useSession();
+  const toast = useToast();
 
   if (status === "unauthenticated") {
     return (
@@ -102,13 +105,37 @@ function Header() {
                   </HStack>
                 </MenuButton>
                 <MenuList>
-                  <NextLink href={`/favorite/${session.userId}`}>
-                    <MenuItem>
-                      <Box>Favorite</Box>
-                    </MenuItem>
-                  </NextLink>
-                  <MenuItem onClick={() => signOut()}>
-                    <Box>Sign out</Box>
+                  {/* <NextLink href={`/favorite/${session.userId}`}> */}
+                  <MenuItem>
+                    <Box
+                      onClick={() =>
+                        toast({
+                          title: "In Progress",
+                          description: "Sorry, this feature is not yet ready.",
+                          status: "error",
+                          duration: 9000,
+                          isClosable: true,
+                        })
+                      }
+                    >
+                      Favorite <Tag>beta</Tag>
+                    </Box>
+                  </MenuItem>
+                  {/* </NextLink> */}
+                  <MenuItem onClick={() =>
+                        toast({
+                          title: "Signed Out",
+                          description: "You have successfully signed out!",
+                          status: "success",
+                          duration: 9000,
+                          isClosable: true,
+                        })
+                      }>
+                    <Box
+                    onClick={() => signOut({redirect: false})}
+                    >
+                      Sign out
+                    </Box>
                   </MenuItem>
                 </MenuList>
               </Menu>

@@ -1,9 +1,6 @@
 import { Box, Container } from "@chakra-ui/react";
-import { prisma, PrismaClient } from "@prisma/client";
 import { useSession } from "next-auth/react";
-import useSWR from "swr";
 import Layout from "../../components/Layout";
-import { fetcher } from "../../utils/api";
 
 const FavoritePage = ({favorites}) => {
 
@@ -17,13 +14,8 @@ const FavoritePage = ({favorites}) => {
         return(
             <Box>
               <Box>
-                Welcome ({session.user.name})
+                Welcome {session.user.name}, sorry, this feature is not yet ready
               </Box>
-              <ul>
-              {favorites.map(favorite => (
-	     <li key={favorite.id}>{favorite.name}</li>
-	    ))}
-              </ul>
             </Box>
         )
     }
@@ -38,12 +30,3 @@ export default function Favorite() {
     </Layout>
   );
 }
-
-export const getServerSideProps = async ({ req }) => {
-  	  const favorites = await prisma.Favorites.findMany({
-  	    where: {
-  	      userId: { id: userId },
-  	    },
-  	  })
-  	  return { props: { favorites } }
-  	}

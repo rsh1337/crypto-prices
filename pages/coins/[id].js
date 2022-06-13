@@ -18,7 +18,6 @@ import Chart from "chart.js/auto";
 import useSWR, { mutate } from "swr";
 import Layout from "../../components/Layout";
 import { prisma } from "@prisma/client";
-import FavoriteButton from "../../components/FavoriteButton";
 
 const CoinChart = () => {
   const { id } = useRouter().query;
@@ -197,7 +196,6 @@ const CoinContent = () => {
             </Box>
           </Box>
         </Stack>
-        <FavoriteButton />
       </Box>
     </Stack>
   );
