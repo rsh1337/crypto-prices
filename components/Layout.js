@@ -26,6 +26,7 @@ import RegisterModal from "./RegisterModal";
 import SearchBar from "./SearchBar";
 import { signOut, useSession } from "next-auth/react";
 import NextLink from "next/link";
+import MenuItems from "./MenuItems";
 
 function Header() {
   const { isOpen, onToggle } = useDisclosure();
@@ -91,54 +92,7 @@ function Header() {
             </Box>
             <Spacer />
             <Box display={[isOpen ? "block" : "none", , "block"]}>
-              <Menu>
-                <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                  <HStack>
-                    <Image
-                      boxSize="2rem"
-                      borderRadius="full"
-                      src={session.user.image}
-                      alt={session.user.name}
-                      mr="5px"
-                    />
-                    <Box>{session.user.name}</Box>
-                  </HStack>
-                </MenuButton>
-                <MenuList>
-                  {/* <NextLink href={`/favorite/${session.userId}`}> */}
-                  <MenuItem>
-                    <Box
-                      onClick={() =>
-                        toast({
-                          title: "In Progress",
-                          description: "Sorry, this feature is not yet ready.",
-                          status: "error",
-                          duration: 9000,
-                          isClosable: true,
-                        })
-                      }
-                    >
-                      Favorite <Tag>beta</Tag>
-                    </Box>
-                  </MenuItem>
-                  {/* </NextLink> */}
-                  <MenuItem onClick={() =>
-                        toast({
-                          title: "Signed Out",
-                          description: "You have successfully signed out!",
-                          status: "success",
-                          duration: 9000,
-                          isClosable: true,
-                        })
-                      }>
-                    <Box
-                    onClick={() => signOut({redirect: false})}
-                    >
-                      Sign out
-                    </Box>
-                  </MenuItem>
-                </MenuList>
-              </Menu>
+              <MenuItems/>
             </Box>
           </Stack>
         </Container>
