@@ -56,13 +56,6 @@ function Header() {
               <SearchBar />
             </Box>
             <Spacer />
-            <Box display={[isOpen ? "block" : "none", , "block"]}>
-              <HStack>
-                <Box>
-                  <LoginModal />
-                </Box>
-              </HStack>
-            </Box>
           </Stack>
         </Container>
       </Box>

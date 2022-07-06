@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <ChakraProvider theme={theme}>
       <SWRConfig value={swrOptions}>
-        <SessionProvider session={session}>
+        <SessionProvider session={session} refetchInterval={5 * 60}>
           <Component {...pageProps} />
         </SessionProvider>
       </SWRConfig>

@@ -24,7 +24,6 @@ function MenuItems() {
             boxSize="2rem"
             borderRadius="full"
             src={session.user.image}
-            alt={session.user.image}
             mr="5px"
           />
           <Box>{session.user.name}</Box>
@@ -59,7 +58,7 @@ function MenuItems() {
             })
           }
         >
-          <Box onClick={() => signOut({redirect: false})}>Sign out</Box>
+          <Box onClick={() => signOut({redirect: false, callbackUrl: "http://localhost:3000/foo"})}>Sign out</Box>
         </MenuItem>
       </MenuList>
     </Menu>

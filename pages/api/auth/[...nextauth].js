@@ -6,6 +6,7 @@ import GoogleProvider from "next-auth/providers/google";
 const prisma = new PrismaClient()
 import { getToken } from "next-auth/jwt"
 
+
 export default NextAuth({
   session: {
     strategy: "jwt",
